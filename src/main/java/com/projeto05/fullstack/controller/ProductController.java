@@ -1,6 +1,7 @@
 package com.projeto05.fullstack.controller;
 
 import com.projeto05.fullstack.model.ProductModel;
+import com.projeto05.fullstack.model.ResponseModel;
 import com.projeto05.fullstack.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,12 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @DeleteMapping("/remove/{codigo}")
+    public ResponseEntity<ResponseModel> remove(@PathVariable long codigo){
+        return productService.remove(codigo);
+    }
+
 
     @PutMapping("update")
     public ResponseEntity<?> update(@RequestBody ProductModel productModel){

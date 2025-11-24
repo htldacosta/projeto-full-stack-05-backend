@@ -21,7 +21,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public ResponseEntity<?> register(ProductModel productModel) {
+    public ResponseEntity<?> registerUpdate(ProductModel productModel, String acao) {
 
         if(productModel.getName().equals("")){
             responseModel.setMensagem("O nome do produto é obrigatorio!");
@@ -30,7 +30,11 @@ public class ProductService {
             responseModel.setMensagem("O nome da marca é obrigatorio!");
             return new ResponseEntity<ResponseModel>(responseModel, HttpStatus.BAD_REQUEST);
         }else{
-            return new ResponseEntity<ProductModel>(productRepository.save(productModel), HttpStatus.CREATED);
+           if(acao.equals("register")){
+               return new ResponseEntity<ProductModel>(productRepository.save(productModel), HttpStatus.CREATED);
+           }else {
+               return new ResponseEntity<ProductModel>(productRepository.save(productModel), HttpStatus.OK);
+           }
         }
     }
 }

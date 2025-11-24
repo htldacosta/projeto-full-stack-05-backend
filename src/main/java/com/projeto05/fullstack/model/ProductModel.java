@@ -1,6 +1,7 @@
 package com.projeto05.fullstack.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.AnyDiscriminatorImplicitValues;
@@ -13,9 +14,13 @@ public class ProductModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+    private Long id;
+
+    @NotBlank(message = "Brand name is required")
     private String name;
-    private String mark;
+
+    @NotBlank(message = "Brand name is required")
+    private String brand;
 
 
 }

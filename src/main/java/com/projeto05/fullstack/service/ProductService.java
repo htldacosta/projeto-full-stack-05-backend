@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -17,32 +19,18 @@ public class ProductService {
     @Autowired
     private ResponseModel responseModel;
 
-    public Iterable<ProductModel> list() {
+    public List<ProductModel> listAll() {
         return productRepository.findAll();
     }
 
-    public ResponseEntity<?> registerUpdate(ProductModel productModel, String acao) {
+    // Serve tanto para cadastrar quanto para atualizar
+    public ProductModel saveOrUpdate(ProductModel productModel) {
 
-        if(productModel.getName().equals("")){
-            responseModel.setMensagem("O nome do produto é obrigatorio!");
-            return new ResponseEntity<ResponseModel>(responseModel, HttpStatus.BAD_REQUEST);
-        }else if(productModel.getMark().equals("")){
-            responseModel.setMensagem("O nome da marca é obrigatorio!");
-            return new ResponseEntity<ResponseModel>(responseModel, HttpStatus.BAD_REQUEST);
-        }else{
-           if(acao.equals("register")){
-               return new ResponseEntity<ProductModel>(productRepository.save(productModel), HttpStatus.CREATED);
-           }else {
-               return new ResponseEntity<ProductModel>(productRepository.save(productModel), HttpStatus.OK);
-           }
-        }
+        return productRepository.save(productModel);
     }
 
     // Method for remove products
-    public ResponseEntity<ResponseModel> remove(long codigo){
-        productRepository.deleteById(codigo);
-
-        responseModel.setMensagem("O produto foi removido com sucesso!");
-        return new ResponseEntity<ResponseModel>(responseModel, HttpStatus.OK);
+    public void remove(Long id){
+        productRepository.deleteById(id);
     }
 }
